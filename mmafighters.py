@@ -134,13 +134,14 @@ datagen = ImageDataGenerator(
 
 datagen.fit(trainingImages)
 
-mobileMMA.fit_generator(datagen.flow(trainingImages, one_hot_labels_train, batch_size=32),
-                    steps_per_epoch=len(trainingImages) / 32, epochs=10)
+mobileMMA.fit_generator(datagen.flow(trainingImages, one_hot_labels_train, batch_size=5),
+                    steps_per_epoch=len(trainingImages) / 5, epochs=10)
+
+#Make a prediction
+preprocessed_image = prepare_image(gV['imageFiles']['Connor McGregor'][1])
+predictions = mobileMMA.predict(preprocessed_image)
+readablePredictions = decodePredictions(predictions, gV['predictionMap'])
+print(readablePredictions)
 
 score = mobileMMA.evaluate(validImages, one_hot_labels_valid, batch_size=5)
 print(score)
-
-#Make a prediction
-preprocessed_image = prepare_image(gV['imageFiles']['Daniel Cormier'][4])
-predictions = mobileMMA.predict(preprocessed_image)
-readablePredictions = decodePredictions(predictions, gV['predictionMap'])
